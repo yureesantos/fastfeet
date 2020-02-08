@@ -29,13 +29,14 @@ class RecipientController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      name: Yup.string(),
-      street: Yup.string(),
+      name: Yup.string().required(),
+      street: Yup.string().required(),
       number: Yup.number().integer(),
       complement: Yup.string(),
-      state: Yup.string(),
-      city: Yup.string(),
+      state: Yup.string().required(),
+      city: Yup.string().required(),
       zipcode: Yup.string()
+        .required()
         .min(8)
         .max(8),
     });
@@ -52,7 +53,7 @@ class RecipientController {
       return res.status(404).json({ error: 'Recipient not found' });
     }
 
-    recipient = await Recipient.update(req.body);
+    recipient = await recipient.update(req.body);
 
     return res.json(recipient);
   }
